@@ -1,0 +1,19 @@
+.p-field * {
+    display: block;
+}
+table {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    border-collapse: collapse;
+  }
+  
+  td {
+    border: 1px solid darkgray;
+    padding: 5px 10px;
+  }
+  
+  th {
+    border: 1px solid darkgray;
+    padding: 5px 10px;
+  }
+  

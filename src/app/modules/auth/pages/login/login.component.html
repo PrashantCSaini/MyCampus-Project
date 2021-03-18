@@ -1,0 +1,55 @@
+<h1>Login Module</h1>
+<br>
+<!-- <span class="p-buttonset">
+    <button pButton type="button" pRipple label="Admin" (click)="onAdmin()"
+        class="p-button-raised p-button-rounded p-button-danger"></button>
+    <button pButton type="button" pRipple label="Faculty" (click)="onFaculty()"
+        class="p-button-raised p-button-rounded p-button-success"></button>
+    <button pButton type="button" pRipple label="Student" (click)="onStudent()"
+        class="p-button-raised p-button-rounded p-button-info"></button>
+    <button pButton type="button" pRipple label="Parent" (click)="onParent()"
+        class="p-button-raised p-button-rounded p-button-warning"></button>
+</span> -->
+
+<br>
+<p-card class="p-d-flex p-jc-center">
+    <form [formGroup]="authForm" (ngSubmit)='loginUser()'>
+        <div class="p-field">
+            <label for="userName">Username</label>
+            <input id="userName" type="text" aria-describedby="userName-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="username" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.username}" />
+            <small id="userName-help" class="p-error" *ngIf="formErrors.username">
+                {{formErrors.username}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="password">Password</label>
+            <input id="password" type="password" aria-describedby="password-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="password" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.password}" />
+            <small id="password-help" class="p-error" *ngIf="formErrors.password">
+                {{formErrors.password}}
+            </small>
+        </div>
+
+        <div class="p-field">
+
+            <p-radioButton inputId="type1" name="type" value="A" formControlName="type" label="Admin" class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type2" name="type" value="F" formControlName="type" label="Faculty" class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type3" name="type" value="S" formControlName="type" label="Student" class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type4" name="type" value="P" formControlName="type" label="Parent" class="p-mb-2">
+            </p-radioButton>
+        </div>
+
+        <button pButton type="submit" label="Login" [disabled]="authForm.invalid" [icon]="loginIcon"
+            class="p-button p-mb-4" pRipple></button>
+
+        <br>
+        <p-message severity="warn" text="{{errorMessage}}" *ngIf="errorMessage"></p-message>
+
+    </form>
+</p-card>

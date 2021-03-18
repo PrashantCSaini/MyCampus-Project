@@ -1,0 +1,137 @@
+<p-card [style]="{'width': 'auto'}" class="p-m-5">
+    <div>
+        <h2> <i [class]="icon" style="font-size: 18px; font-weight: bold; margin-right: 5px; "></i>
+            {{pageTitle}}</h2>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)='onSubmit()'>
+        <div class="p-field">
+            <label for="userName">Username</label>
+            <input id="userName" type="text" aria-describedby="userName-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="username" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.username}" />
+            <small id="userName-help" class="p-error" *ngIf="formErrors.username">
+                {{formErrors.username}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="password">Password</label>
+            <input id="password" type="password" aria-describedby="password-help" class="p-inputtext-sm"
+                autocomplete="off" pInputText formControlName="password" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.password}" />
+            <small id="password-help" class="p-error" *ngIf="formErrors.password">
+                {{formErrors.password}}
+            </small>
+        </div>
+
+        <div class="p-field">
+
+            <p-radioButton inputId="type1" name="usertype" value="A" formControlName="usertype" label="Admin"
+                class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type2" name="usertype" value="F" formControlName="usertype" label="Faculty"
+                class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type3" name="usertype" value="S" formControlName="usertype" label="Student"
+                class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type4" name="usertype" value="P" formControlName="usertype" label="Parent"
+                class="p-mb-2">
+            </p-radioButton>
+        </div>
+
+        <button pButton type="submit" label="{{submitButtonText}}" [disabled]="loginForm.invalid" [icon]="loadingIcon"
+            class="p-button p-mr-4" pRipple></button>
+
+
+        <!-- <button pButton pRipple type="button" label="Cancel" icon="pi pi-times" class="p-button-secondary"
+            (click)="onCancelButtonClick()" [style.display]="isDisplayCancelButton ? 'inline-block' : 'none'"></button> -->
+    </form>
+</p-card>
+
+<br>
+
+<p-card>
+    <p-table #dt1 [value]="loginlist" styleClass="p-datatable-sm p-datatable-striped" sortMode="multiple" dataKey="id"
+        [scrollable]="true" scrollHeight="400px" [globalFilterFields]="['LoginId','LoginUsername','UserType']"
+        selectionMode="single">
+
+        <!-- <ng-template pTemplate="caption">
+          <div class="p-d-flex">
+            <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+              class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+          </div>
+        </ng-template> -->
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Manage Login</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col style="width:100px">
+                <col style="width:100px">
+                <col style="width:200px">
+                <col style="width:150px">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <!-- <th>Action</th> -->
+                <th pSortableColumn="LoginId">Id<p-sortIcon field="LoginId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="LoginUsername">Username<p-sortIcon field="LoginUsername"></p-sortIcon>
+                </th>
+                <th pSortableColumn="UserType">User Type<p-sortIcon field="UserType"></p-sortIcon>
+                </th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-login>
+            <tr>
+                <!-- <td>
+                    <Button pButton pRipple type="button" icon="pi pi-pencil"
+                        class="p-button-rounded p-button-text p-button-success p-inputtext-sm"
+                        (click)="editButtonClick(course.CourseId)"></Button>
+
+                    <Button pButton pRipple type="button" icon="pi pi-trash"
+                        class="p-button-rounded p-button-text p-button-danger p-inputtext-sm"
+                        (click)="confirm(course.CourseId)"></Button>
+                </td> -->
+                <td>{{ login.LoginId }}</td>
+                <td>{{ login.LoginUsername }}</td>
+                <td>{{ login.UserType === 'A' ? 'Admin' : (login.UserType === 'S' ? 'Student' : (login.UserType === 'P'
+                    ? 'Parent' : 'Faculty')) }}</td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr *ngFor="let number of [0,1,2,3,4]">
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No login found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+<p-toast></p-toast>
+<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->

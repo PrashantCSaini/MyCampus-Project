@@ -1,0 +1,356 @@
+<p-card [style]="{'width': 'auto'}" class="p-m-5">
+    <div>
+        <h2> <i [class]="icon" style="font-size: 18px; font-weight: bold; margin-right: 5px; "></i>
+            {{pageTitle}} <p-chip label="{{studentId}}" icon="pi pi-tags" [removable]="true" *ngIf="studentId"
+                (onRemove)="onCancelButtonClick()" class="p-ml-2" styleClass="custom-chip">
+            </p-chip>
+        </h2>
+    </div>
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+
+        <div class="p-field">
+            <label for="courseId">Select Course</label>
+            <p-dropdown id="courseId" [options]="courselist" aria-describedby="courseId-help"
+                placeholder="Select a Course" [showClear]="true" optionLabel="CourseName" optionValue="CourseId"
+                formControlName="courseId" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.courseId}">
+            </p-dropdown>
+            <small id="courseId-help" class="p-error" *ngIf="formErrors.courseId">
+                {{formErrors.courseId}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="loginId">Assign Login</label>
+            <p-dropdown id="loginId" [options]="loginlist" aria-describedby="loginId-help" placeholder="Select login"
+                [showClear]="true" optionLabel="LoginUsername" optionValue="LoginId" formControlName="loginId"
+                (blur)="logValidationErrors()" [ngClass]="{'ng-invalid ng-dirty' : formErrors.loginId}">
+            </p-dropdown>
+            <small id="loginId-help" class="p-error" *ngIf="formErrors.loginId">
+                {{formErrors.loginId}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="admissionYear">Admission Year</label>
+            <input id="admissionYear" type="text" aria-describedby="admissionYear-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="admissionYear" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.admissionYear}" />
+            <small id="admissionYear-help" class="p-error" *ngIf="formErrors.admissionYear">
+                {{formErrors.admissionYear}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="branch">Branch</label>
+            <input id="branch" type="text" aria-describedby="branch-help" class="p-inputtext-sm" autocomplete="off"
+                pInputText formControlName="branch" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.branch}" />
+            <small id="branch-help" class="p-error" *ngIf="formErrors.branch">
+                {{formErrors.branch}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="currentSemester">Current Semester</label>
+            <input id="currentSemester" type="number" aria-describedby="currentSemester-help" class="p-inputtext-sm"
+                autocomplete="off" min="1" pInputText formControlName="currentSemester" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.currentSemester}" />
+            <small id="currentSemester-help" class="p-error" *ngIf="formErrors.currentSemester">
+                {{formErrors.currentSemester}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="division">Division</label>
+            <input id="division" type="text" aria-describedby="division-help" class="p-inputtext-sm" autocomplete="off"
+                pInputText formControlName="division" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.division}" />
+            <small id="division-help" class="p-error" *ngIf="formErrors.division">
+                {{formErrors.division}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="rollNo">Roll No</label>
+            <input id="rollNo" type="number" aria-describedby="division-help" class="p-inputtext-sm" autocomplete="off"
+                min="1" pInputText formControlName="rollNo" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.rollNo}" />
+            <small id="rollNo-help" class="p-error" *ngIf="formErrors.rollNo">
+                {{formErrors.rollNo}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="name">Name</label>
+            <input id="name" type="text" aria-describedby="name-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="name" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.name}" />
+            <small id="name-help" class="p-error" *ngIf="formErrors.name">
+                {{formErrors.name}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="dateOfBirth">Date of Birth</label>
+            <p-calendar id="dateOfBirth" formControlName="dateOfBirth" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.dateOfBirth}" dateFormat="dd-mm-yy" [showIcon]="true"
+                showButtonBar="true">
+            </p-calendar>
+            <small id="dateOfBirth-help" class="p-error" *ngIf="formErrors.dateOfBirth">
+                {{formErrors.dateOfBirth}}</small>
+        </div>
+
+        <div class="p-field">
+            <label>Gender</label>
+            <p-radioButton inputId="type1" name="gender" value="M" formControlName="gender" label="Male" class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type2" name="gender" value="F" formControlName="gender" label="Female"
+                class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type3" name="gender" value="O" formControlName="gender" label="Other"
+                class="p-mb-2">
+            </p-radioButton>
+        </div>
+
+        <div class="p-field">
+            <label for="residentialAddress">Residential Address</label>
+            <textarea id="residentialAddress" [rows]="2" [cols]="30" aria-describedby="residentialAddress-help"
+                pInputTextarea autoResize="autoResize" formControlName="residentialAddress"
+                (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.residentialAddress}"></textarea>
+            <small id="residentialAddress-help" class="p-error" *ngIf="formErrors.residentialAddress">
+                {{formErrors.residentialAddress}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="nativeAddress">Native Address</label>
+            <textarea id="nativeAddress" [rows]="2" [cols]="30" aria-describedby="nativeAddress-help" pInputTextarea
+                autoResize="autoResize" formControlName="nativeAddress" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.nativeAddress}"></textarea>
+            <small id="nativeAddress-help" class="p-error" *ngIf="formErrors.nativeAddress">
+                {{formErrors.nativeAddress}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="mobileNo1">Mobile No 1</label>
+            <input id="mobileNo1" type="text" aria-describedby="mobileNo1-help" class="p-inputtext-sm"
+                autocomplete="off" pInputText formControlName="mobileNo1" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.mobileNo1}" />
+            <small id="mobileNo1-help" class="p-error" *ngIf="formErrors.mobileNo1">
+                {{formErrors.mobileNo1}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="mobileNo2">Mobile No 2</label>
+            <input id="mobileNo2" type="text" aria-describedby="mobileNo2-help" class="p-inputtext-sm"
+                autocomplete="off" pInputText formControlName="mobileNo2" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.mobileNo2}" />
+            <small id="mobileNo2-help" class="p-error" *ngIf="formErrors.mobileNo2">
+                {{formErrors.mobileNo2}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="email">Email</label>
+            <input id="email" type="email" aria-describedby="email-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="email" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.email}" />
+            <small id="email-help" class="p-error" *ngIf="formErrors.email">
+                {{formErrors.email}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="nationality">Nationality</label>
+            <input id="nationality" type="text" aria-describedby="nationality-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="nationality" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.nationality}" />
+            <small id="nationality-help" class="p-error" *ngIf="formErrors.nationality">
+                {{formErrors.nationality}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="motherTongue">Mother Tongue</label>
+            <input id="motherTongue" type="text" aria-describedby="motherTongue-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="motherTongue" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.motherTongue}" />
+            <small id="motherTongue-help" class="p-error" *ngIf="formErrors.motherTongue">
+                {{formErrors.motherTongue}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="discipline">Discipline</label>
+            <input id="discipline" type="text" aria-describedby="discipline-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="discipline" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.discipline}" />
+            <small id="discipline-help" class="p-error" *ngIf="formErrors.discipline">
+                {{formErrors.discipline}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="joiningDate">Joining Date</label>
+            <p-calendar id="joiningDate" formControlName="joiningDate" aria-describedby="joiningDate-help"
+                (blur)="logValidationErrors()" [ngClass]="{'ng-invalid ng-dirty' : formErrors.joiningDate}"
+                dateFormat="dd-mm-yy" [showIcon]="true" showButtonBar="true">
+            </p-calendar>
+            <small id="joiningDate-help" class="p-error" *ngIf="formErrors.joiningDate">
+                {{formErrors.joiningDate}}</small>
+        </div>
+
+        <div class="p-field">
+            <label>Physically Handicapped</label>
+            <p-radioButton inputId="type1" name="physicallyHandicapped" value="Y"
+                formControlName="physicallyHandicapped" label="Yes" class="p-mb-2">
+            </p-radioButton>
+            <p-radioButton inputId="type2" name="physicallyHandicapped" value="N"
+                formControlName="physicallyHandicapped" label="No" class="p-mb-2">
+            </p-radioButton>
+        </div>
+
+        <div class="p-field">
+            <label for="mentorName">Mentor Name</label>
+            <input id="mentorName" type="text" aria-describedby="mentorName-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="mentorName" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.mentorName}" />
+            <small id="mentorName-help" class="p-error" *ngIf="formErrors.mentorName">
+                {{formErrors.mentorName}}</small>
+        </div>
+
+
+
+
+
+
+        <button pButton type="submit" label="{{submitButtonText}}" [disabled]="studentForm.invalid" [icon]="loadingIcon"
+            class="p-button p-mr-4" pRipple></button>
+
+
+        <!-- <button pButton pRipple type="button" label="Cancel" icon="pi pi-times" class="p-button-secondary"
+            (click)="onCancelButtonClick()" [style.display]="isDisplayCancelButton ? 'inline-block' : 'none'"></button> -->
+    </form>
+</p-card>
+
+<!-- Subject Gridview -->
+<br>
+
+<p-card>
+    <p-table #dt1 [value]="studentlist" styleClass="p-datatable-sm p-datatable-striped" sortMode="multiple" dataKey="id"
+        [scrollable]="true" scrollHeight="400px"
+        [globalFilterFields]="['SubjectId','SubjectName','InternalMarks','ExternalTheoryMarks','ExternalPracticalMarks','CourseName']"
+        selectionMode="single">
+
+
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Manage Student</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col style="width:100px">
+                <col style="width:100px">
+                <col style="width:250px">
+                <col style="width:150px">
+                <col style="width:150px">
+                <col style="width:150px">
+                <col style="width:200px">
+                <col style="width:200px">
+                <col style="width:150px">
+                <col style="width:150px">
+                <col style="width:400px">
+                <col style="width:150px">
+                <col style="width:250px">
+                <col style="width:150px">
+                <col style="width:150px">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Action</th>
+                <th pSortableColumn="StudentId">Id<p-sortIcon field="StudentId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Name">Name<p-sortIcon field="Name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="CourseId">CourseId<p-sortIcon field="CourseId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Branch">Branch<p-sortIcon field="Branch"></p-sortIcon>
+                </th>
+                <th pSortableColumn="DateOfBirth">DateOfBirth<p-sortIcon field="DateOfBirth"></p-sortIcon>
+                </th>
+                <th pSortableColumn="AdmissionYear">AdmissionYear<p-sortIcon field="AdmissionYear"></p-sortIcon>
+                </th>
+                <th pSortableColumn="CurrentSemester">CurrentSemester<p-sortIcon field="CurrentSemester"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Division">Division<p-sortIcon field="Division"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Gender">Gender<p-sortIcon field="Gender"></p-sortIcon>
+                </th>
+                <th pSortableColumn="ResidentialAddress">ResidentialAddress<p-sortIcon field="ResidentialAddress">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="MobileNo1">MobileNo1<p-sortIcon field="MobileNo1"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Email">Email<p-sortIcon field="Email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="JoiningDate">JoiningDate<p-sortIcon field="JoiningDate"></p-sortIcon>
+                </th>
+                <th pSortableColumn="MentorName">MentorName<p-sortIcon field="MentorName"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-student>
+            <tr>
+                <td>
+                    <Button pButton pRipple type="button" icon="pi pi-pencil"
+                        class="p-button-rounded p-button-text p-button-success p-inputtext-sm"></Button>
+
+                    <Button pButton pRipple type="button" icon="pi pi-trash"
+                        class="p-button-rounded p-button-text p-button-danger p-inputtext-sm"></Button>
+                </td>
+                <td>{{ student.StudentId }}</td>
+                <td>{{ student.Name }}</td>
+                <td>{{ student.CourseId }}</td>
+                <td>{{ student.Branch }}</td>
+                <td>{{ student.DateOfBirth | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ student.AdmissionYear }}</td>
+                <td>{{ student.CurrentSemester }}</td>
+                <td>{{ student.Division }}</td>
+                <td>{{ student.Gender === 'M' ? 'Male' : (student.Gender === 'F' ? 'Female' : 'Other') }}</td>
+                <td>{{ student.ResidentialAddress }}</td>
+                <td>{{ student.MobileNo1 }}</td>
+                <td>{{ student.Email }}</td>
+                <td>{{ student.JoiningDate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ student.MentorName }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr *ngFor="let number of [0,1,2,3,4]">
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No subject found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<p-toast></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

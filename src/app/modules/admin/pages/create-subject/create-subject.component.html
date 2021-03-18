@@ -1,0 +1,177 @@
+<p-card [style]="{'width': 'auto'}" class="p-m-5">
+    <div>
+        <h2> <i [class]="icon" style="font-size: 18px; font-weight: bold; margin-right: 5px; "></i>
+            {{pageTitle}} <p-chip label="{{subjectId}}" icon="pi pi-tags" [removable]="true" *ngIf="subjectId"
+                (onRemove)="onCancelButtonClick()" class="p-ml-2" styleClass="custom-chip">
+            </p-chip>
+        </h2>
+    </div>
+    <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+
+        <div class="p-field">
+            <label for="courseId">Course</label>
+            <p-dropdown id="courseId" [options]="courselist" aria-describedby="courseId-help"
+                placeholder="Select a Course" [showClear]="true" optionLabel="CourseName" optionValue="CourseId"
+                formControlName="courseId" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.courseId}">
+            </p-dropdown>
+            <small id="courseId-help" class="p-error" *ngIf="formErrors.courseId">
+                {{formErrors.courseId}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="subjectName">Subject Name</label>
+            <input id="subjectName" type="text" aria-describedby="subjectName-help" autocomplete="off" pInputText
+                class="p-inputtext-sm" formControlName="subjectName" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.subjectName}" />
+            <small id="subjectName-help" class="p-error" *ngIf="formErrors.subjectName">
+                {{formErrors.subjectName}}</small>
+        </div>
+
+        <div class="p-field">
+            <label for="internalMarks">Internal Marks</label>
+            <input id="internalMarks" type="number" aria-describedby="internalMarks-help" class="p-inputtext-sm"
+                autocomplete="off" min="0" pInputText formControlName="internalMarks" (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.internalMarks}" />
+            <small id="internalMarks-help" class="p-error" *ngIf="formErrors.internalMarks">
+                {{formErrors.internalMarks}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="externalTheoryMarks">External Theory Marks</label>
+            <input id="externalTheoryMarks" type="number" aria-describedby="externalTheoryMarks-help"
+                class="p-inputtext-sm" autocomplete="off" min="0" pInputText formControlName="externalTheoryMarks"
+                (blur)="logValidationErrors()" [ngClass]="{'ng-invalid ng-dirty' : formErrors.externalTheoryMarks}" />
+            <small id="externalTheoryMarks-help" class="p-error" *ngIf="formErrors.externalTheoryMarks">
+                {{formErrors.externalTheoryMarks}}
+            </small>
+        </div>
+
+        <div class="p-field">
+            <label for="externalPracticalMarks">External Practical Marks</label>
+            <input id="externalPracticalMarks" type="number" aria-describedby="externalPracticalMarks-help"
+                class="p-inputtext-sm" autocomplete="off" min="0" pInputText formControlName="externalPracticalMarks"
+                (blur)="logValidationErrors()"
+                [ngClass]="{'ng-invalid ng-dirty' : formErrors.externalPracticalMarks}" />
+            <small id="externalPracticalMarks-help" class="p-error" *ngIf="formErrors.externalPracticalMarks">
+                {{formErrors.externalPracticalMarks}}
+            </small>
+        </div>
+
+
+
+        <button pButton type="submit" label="{{submitButtonText}}" [disabled]="subjectForm.invalid" [icon]="loadingIcon"
+            class="p-button p-mr-4" pRipple></button>
+
+
+        <button pButton pRipple type="button" label="Cancel" icon="pi pi-times" class="p-button-secondary"
+            (click)="onCancelButtonClick()" [style.display]="isDisplayCancelButton ? 'inline-block' : 'none'"></button>
+    </form>
+</p-card>
+
+<!-- Subject Gridview -->
+<br>
+
+<p-card>
+    <p-table #dt1 [value]="subjectlist" styleClass="p-datatable-sm p-datatable-striped" sortMode="multiple" dataKey="id"
+        [scrollable]="true" scrollHeight="400px"
+        [globalFilterFields]="['SubjectId','SubjectName','InternalMarks','ExternalTheoryMarks','ExternalPracticalMarks','CourseName']"
+        selectionMode="single">
+
+        <!-- <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+            class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+        </div>
+      </ng-template> -->
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Manage Subjects</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col style="width:100px">
+                <col style="width:100px">
+                <col style="width:250px">
+                <col style="width:150px">
+                <col style="width:150px">
+                <col style="width:150px">
+                <col style="width:150px">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Action</th>
+                <th pSortableColumn="SubjectId">Id<p-sortIcon field="SubjectId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="SubjectName">Subject<p-sortIcon field="SubjectName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="InternalMarks">Internal Marks<p-sortIcon field="InternalMarks"></p-sortIcon>
+                </th>
+                <th pSortableColumn="ExternalTheoryMarks">External Theory <p-sortIcon field="ExternalTheoryMarks">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="ExternalPracticalMarks">External Practical<p-sortIcon
+                        field="ExternalPracticalMarks">
+                    </p-sortIcon>
+                </th>
+                <th pSortableColumn="CourseName">Course<p-sortIcon field="CourseName"></p-sortIcon>
+                </th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-subject>
+            <tr>
+                <td>
+                    <Button pButton pRipple type="button" icon="pi pi-pencil"
+                        class="p-button-rounded p-button-text p-button-success p-inputtext-sm"
+                        (click)="editButtonClick(subject.SubjectId)"></Button>
+
+                    <Button pButton pRipple type="button" icon="pi pi-trash"
+                        class="p-button-rounded p-button-text p-button-danger p-inputtext-sm"
+                        (click)="confirm(subject.SubjectId)"></Button>
+                </td>
+                <td>{{ subject.SubjectId }}</td>
+                <td>{{ subject.SubjectName }}</td>
+                <td>{{ subject.InternalMarks }}</td>
+                <td>{{ subject.ExternalTheoryMarks }}</td>
+                <td>{{ subject.ExternalPracticalMarks }}</td>
+                <td>{{ subject.CourseName }}</td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr *ngFor="let number of [0,1,2,3,4]">
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+                <td>
+                    <p-skeleton></p-skeleton>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No subject found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<p-toast></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
